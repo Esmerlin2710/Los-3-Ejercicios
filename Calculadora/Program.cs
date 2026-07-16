@@ -13,6 +13,7 @@ decimal descuento;
 decimal impuesto;
 var productoList = new List<Producto>();
 int d = 1;
+decimal totalCompra = 1;
 
 
 System.Console.WriteLine("\n------------Bienvenida/o a la Calculadora de Compras-----------");
@@ -189,6 +190,12 @@ void Resultado()
             System.Console.WriteLine($"Impuestos: {i.ImpuestoTotal:F2}");
             Thread.Sleep(500);
             System.Console.WriteLine($"Total: {i.Total:F2}\n");
+            Thread.Sleep(1000);
+
+            totalCompra += i.Total;
             d++;
+
+
         }
+    System.Console.WriteLine($"El total de la compra fue: {totalCompra:F2}");
 }
