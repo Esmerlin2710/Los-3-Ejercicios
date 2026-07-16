@@ -1,0 +1,5 @@
+2- Crear clase productos
+3- Pedir los productos y las caracteristicas
+4- Validar cada producto y caracteristicas
+5- Hacer los calculos necesarios
+6- Mostrar todo en consola

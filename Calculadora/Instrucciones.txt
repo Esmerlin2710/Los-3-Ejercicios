@@ -1,0 +1,42 @@
+RETO 1: Calculadora de Compras.  
+
+Contexto: Crear una aplicación de consola que calcule el total de una compra y muestre un resumen detallado 
+de la operación. 
+
+Datos que debe solicitar:
+
+• Nombre del producto. 
+• Precio unitario. 
+• Cantidad comprada. 
+• Porcentaje de descuento. 
+• Porcentaje de impuesto. 
+
+Reglas:
+
+1. Calcular el subtotal multiplicando el precio unitario por la cantidad. 
+2. Aplicar el descuento sobre el subtotal. 
+3. Calcular el impuesto después de aplicar el descuento. 
+4. Si el subtotal supera RD$5,000, aplicar un descuento adicional de 5 %. 
+5. Mostrar el detalle completo de la compra y el total final. 
+
+Validaciones mínimas:
+
+• El nombre del producto no puede estar vacío. 
+• El precio debe ser mayor que cero. 
+• La cantidad debe ser mayor que cero. 
+• Los porcentajes deben estar entre 0 y 100. 
+• El programa debe permitir corregir un dato inválido sin cerrarse. 
+
+Ejemplo de salida:
+
+Producto: Teclado 
+Cantidad: 2 
+Precio unitario: RD$1,500.00 
+Subtotal: RD$3,000.00 
+Descuento: RD$300.00 
+Impuesto: RD$486.00 
+Total: RD$3,186.00 
+
+Reto adicional:
+
+Permitir registrar varios productos y mostrar el total general de la compra.
