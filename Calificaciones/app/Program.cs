@@ -49,7 +49,7 @@ void Menu()
         case 3: MostrarEstudiantes(); break;
         case 4: MostrarCurso(); break;
         case 5: System.Console.WriteLine("\nSaliendo del programa...\n"); Environment.Exit(0); break;
-        default: System.Console.WriteLine("Error: Ingrese una opcion valida"); break;
+        default: System.Console.WriteLine("\nError: Ingrese una opcion valida"); Menu(); break;
     }
 }
 
