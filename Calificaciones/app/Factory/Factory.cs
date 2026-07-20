@@ -28,21 +28,21 @@ public static class EstudiantesFactory
 
         if (calificacionFinal >= 90 && calificacionFinal <= 100)
         {
-            Enum.TryParse<Clasificacion>("Excelente", out clasificacion);
+            Enum.TryParse("Excelente", out clasificacion);
         } 
         else if (calificacionFinal >= 80 && calificacionFinal <= 89)
         {
-            Enum.TryParse<Clasificacion>("MuyBueno", out clasificacion);
+            Enum.TryParse("MuyBueno", out clasificacion);
         }
         else if (calificacionFinal >= 70 && calificacionFinal <= 79)
         {
-            Enum.TryParse<Clasificacion>("Aprobado", out clasificacion);
+            Enum.TryParse("Aprobado", out clasificacion);
         } else if (calificacionFinal >= 0 && calificacionFinal <= 69)
         {
-            Enum.TryParse<Clasificacion>("Reprobado", out clasificacion);
+            Enum.TryParse("Reprobado", out clasificacion);
         } else
         {
-            throw new ArgumentException("Error: Debes poner una calificacion entre 0 y 100");
+            throw new ArgumentException("Debes poner una calificacion entre 0 y 100");
         }
 
         return new Estudiante
