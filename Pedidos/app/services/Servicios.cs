@@ -875,7 +875,7 @@ public static class Servicio
         Thread.Sleep(1000);
         Main.Menu();
     }
-
+    //Indicadores
     public static void Indicadores()
     {
         int cantidadPedidos = Global.pedidos.Count();
