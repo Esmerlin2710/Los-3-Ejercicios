@@ -1,1 +1,122 @@
-[{"ID":1,"Nombre":"Teclado","Precio":1500,"Stock":0},{"ID":2,"Nombre":"Monitor","Precio":5000,"Stock":0},{"ID":3,"Nombre":"Mando","Precio":2000,"Stock":0},{"ID":4,"Nombre":"Abanico","Precio":6000,"Stock":0}]
+[
+    {
+        "ID": 1,
+        "Nombre": "Teclado",
+        "Precio": 1500,
+        "Stock": 12
+    },
+    {
+        "ID": 2,
+        "Nombre": "Monitor",
+        "Precio": 5000,
+        "Stock": 8
+    },
+    {
+        "ID": 3,
+        "Nombre": "AirPods",
+        "Precio": 300,
+        "Stock": 15
+    },
+    {
+        "ID": 4,
+        "Nombre": "Mouse",
+        "Precio": 800,
+        "Stock": 20
+    },
+    {
+        "ID": 5,
+        "Nombre": "Laptop",
+        "Precio": 35000,
+        "Stock": 5
+    },
+    {
+        "ID": 6,
+        "Nombre": "Memoria USB 64GB",
+        "Precio": 650,
+        "Stock": 30
+    },
+    {
+        "ID": 7,
+        "Nombre": "Disco SSD 1TB",
+        "Precio": 4200,
+        "Stock": 10
+    },
+    {
+        "ID": 8,
+        "Nombre": "Silla Gamer",
+        "Precio": 12000,
+        "Stock": 4
+    },
+    {
+        "ID": 9,
+        "Nombre": "Webcam HD",
+        "Precio": 1800,
+        "Stock": 11
+    },
+    {
+        "ID": 10,
+        "Nombre": "Micrófono USB",
+        "Precio": 2500,
+        "Stock": 7
+    },
+    {
+        "ID": 11,
+        "Nombre": "Parlantes",
+        "Precio": 2200,
+        "Stock": 9
+    },
+    {
+        "ID": 12,
+        "Nombre": "Tablet",
+        "Precio": 14000,
+        "Stock": 6
+    },
+    {
+        "ID": 13,
+        "Nombre": "Impresora",
+        "Precio": 9800,
+        "Stock": 3
+    },
+    {
+        "ID": 14,
+        "Nombre": "Router WiFi",
+        "Precio": 2700,
+        "Stock": 14
+    },
+    {
+        "ID": 15,
+        "Nombre": "Cable HDMI",
+        "Precio": 450,
+        "Stock": 40
+    },
+    {
+        "ID": 16,
+        "Nombre": "Power Bank",
+        "Precio": 1600,
+        "Stock": 18
+    },
+    {
+        "ID": 17,
+        "Nombre": "Smartwatch",
+        "Precio": 6200,
+        "Stock": 10
+    },
+    {
+        "ID": 18,
+        "Nombre": "Cargador USB-C",
+        "Precio": 700,
+        "Stock": 25
+    },
+    {
+        "ID": 19,
+        "Nombre": "Audífonos Bluetooth",
+        "Precio": 2800,
+        "Stock": 13
+    },
+    {
+        "ID": 20,
+        "Nombre": "Monitor 27\"",
+        "Precio": 9500,
+        "Stock": 5
+    }
+]

@@ -7,7 +7,7 @@ using app.global.global;
 using app.main;
 using System.Threading;
 using app.factory.factory;
-using System.ComponentModel.Design;
+using System.Security.Cryptography;
 
 public static class Servicio
 {
@@ -181,7 +181,7 @@ public static class Servicio
   
     }
     //Agregar productos
-    public static void AgregarProductos() //Agregar: Si el producto ya existe, debe aumentarse su cantidad en lugar de duplicarlo. 
+    public static void AgregarProductos() 
     {
         int IdPedido = 0;
         int IdProducto = 0;
@@ -224,6 +224,14 @@ public static class Servicio
                 continue;
             }
 
+            if(Global.pedidos.Where(p => p.ID == IdPedido).Any(g => g.Estado == Estado.Cancelado || g.Estado == Estado.Entregado || g.Estado == Estado.Enviado))
+            {
+                System.Console.WriteLine("\nNo puedes agregar productos a un pedido Entregado, Enviado o cancelado");
+                Thread.Sleep(1000);
+                Main.Menu();
+                break;
+            }
+
             if(verify) 
                 break;
 
@@ -263,6 +271,7 @@ public static class Servicio
             var pedidoActual = Global.pedidos.FirstOrDefault(p => p.ID == IdPedido);
             var productoActual = Global.productos.FirstOrDefault(p => p.ID == IdProducto);
 
+
             System.Console.Write("Que cantidad va a agregar?: ");
             var cantTemp = Console.ReadLine() ?? "";
             verify = Validacion.VerificarInt(cantTemp);
@@ -279,6 +288,26 @@ public static class Servicio
             {
                 System.Console.WriteLine("\nError: Ingrese una cantidad igual o menor al stock\n");
                 continue;
+            }
+            
+            foreach (var item in Global.pedidos)
+            {
+                if(item.DetallePedido.Exists(p => p._Producto.ID == IdProducto))
+                {
+                    var productoExistente = item.DetallePedido.FirstOrDefault(p => p._Producto.ID == IdProducto);
+                    productoExistente.Cantidad += cant;
+                    productoExistente._Producto.Stock -= cant;
+
+                    System.Console.WriteLine("\nProducto existente en el pedido");
+                    System.Console.WriteLine("Agregando cantidad al pedido");
+                    Thread.Sleep(2000);
+                    System.Console.WriteLine("\nAgregado con exito");
+                    System.Console.WriteLine("\nPresione una tecla para volver al menu...");
+                    Console.ReadKey();
+                    Thread.Sleep(1000);
+                    Main.Menu();
+                    break;
+                }
             }
 
             productoActual.Stock -= cant;
@@ -687,5 +716,196 @@ public static class Servicio
         }
 
     }
+    //Cancelar pedido
+    public static void CancelarPedido()
+    {
+        string pedido;
 
+        if(!Global.pedidos.Any())
+            {
+                System.Console.WriteLine("\nAun no hay pedidos registrados");
+                System.Console.WriteLine("Crea al menos un pedido");
+                Thread.Sleep(1000);
+                Main.Menu();
+                return;
+            }
+
+        System.Console.Write("\nIngrese el ID del pedido: ");
+        pedido = Console.ReadLine() ?? "";
+        verify = Validacion.VerificarInt(pedido);
+
+        if(!verify)
+        {
+            System.Console.WriteLine($"\nError: {Global.Error}\n");
+            Thread.Sleep(1000);
+            Main.Menu();
+            return;
+        }
+
+        int.TryParse(pedido, out int Id);
+
+        if (!Global.pedidos.Any(p => p.ID == Id))
+        {
+            System.Console.WriteLine("ID no encontrada");
+            Thread.Sleep(1000);
+            Main.Menu();
+            return;
+        }
+
+        var seleccionado = Global.pedidos.FirstOrDefault(p => p.ID == Id);
+
+        if(seleccionado.Estado == Estado.Pendiente)
+        {
+            System.Console.WriteLine("\nEstas seguro de cancelar este pedido en pendiente?\n");
+        }
+        else if(seleccionado.Estado == Estado.Preparacion)
+        {
+            System.Console.WriteLine("\nEstas seguro de cancelar este pedido en preparacion?\n");
+        }
+
+        if(seleccionado.Estado != Estado.Pendiente && seleccionado.Estado != Estado.Preparacion)
+        {
+            System.Console.WriteLine("\nSolo se pueden cancelar pedidos 'pendientes' o en 'preparacion'");
+            Thread.Sleep(1000);
+            Main.Menu();
+            return;
+        }
+        
+        System.Console.WriteLine("1. Si");
+        System.Console.WriteLine("2. No");
+        System.Console.Write("\nELije: ");
+
+        switch(Console.ReadLine() ?? "")
+            {
+                case "1":
+                    seleccionado.Estado = Estado.Cancelado;
+                    System.Console.WriteLine("\nEstado cambiado con exito");
+                    Thread.Sleep(1000);
+                    Main.Menu();
+                    break;
+                case "2":
+                    System.Console.WriteLine("\nVolviendo al menu...");
+                    Thread.Sleep(1000);
+                    Main.Menu();
+                    break;
+                default:
+                    System.Console.WriteLine("\nOpcion invalida");
+                    System.Console.WriteLine("Volviendo al menu...");
+                    Thread.Sleep(1000);
+                    Main.Menu();
+                    break;
+            }
+    }
+    //Total de los pedidos
+    public static void TotalPedido()
+    {
+        string pedido;
+        decimal total = 0;
+        decimal subTotalProducto = 0;
+        decimal subTotal = 0;
+        decimal descuento;
+        int contador = 1;
+
+        if(!Global.pedidos.Any())
+            {
+                System.Console.WriteLine("\nAun no hay pedidos registrados");
+                System.Console.WriteLine("Crea al menos un pedido");
+                Thread.Sleep(1000);
+                Main.Menu();
+                return;
+            }
+
+        System.Console.Write("\nIngrese el ID del pedido: ");
+        pedido = Console.ReadLine() ?? "";
+        verify = Validacion.VerificarInt(pedido);
+
+        if(!verify)
+        {
+            System.Console.WriteLine($"\nError: {Global.Error}\n");
+            Thread.Sleep(1000);
+            Main.Menu();
+            return;
+        }
+
+        int.TryParse(pedido, out int Id);
+
+        if (!Global.pedidos.Any(p => p.ID == Id))
+        {
+            System.Console.WriteLine("}nID no encontrada");
+            Thread.Sleep(1000);
+            Main.Menu();
+            return;
+        }
+
+        var seleccionado = Global.pedidos.FirstOrDefault(p => p.ID == Id);
+
+        System.Console.WriteLine($"\n------------- Pedido de {seleccionado.Cliente} -------------");
+
+        foreach (var i in seleccionado.DetallePedido)
+        {
+            subTotalProducto = i.Cantidad * i._Producto.Precio;
+            System.Console.WriteLine($"\n-------Producto #{contador}-------\n");
+            System.Console.WriteLine($"Producto: {i._Producto.Nombre}");
+            System.Console.WriteLine($"Cantidad {i.Cantidad}");
+            System.Console.WriteLine($"Precio: {i._Producto.Precio}");
+            System.Console.WriteLine($"Subtotal Producto: {subTotalProducto}");
+            subTotal += subTotalProducto;
+            contador++;
+        }
+
+        if(subTotal >= 10000)
+        {
+            descuento = 5;
+            total = subTotal - (subTotal * (descuento / 100));
+        }
+        else
+        {
+            descuento = 0;
+            total = subTotal;
+        }
+
+        System.Console.WriteLine("\n-------Total del pedido-------\n");
+        System.Console.WriteLine($"Subtotal: {subTotal}");
+        System.Console.WriteLine($"Descuento: {descuento}%");
+        System.Console.WriteLine($"Total: {total}");
+        System.Console.WriteLine("\n--------------------------------\n");
+
+        System.Console.WriteLine("Presione una tecla para volver al menu...");
+        Console.ReadKey();
+        Thread.Sleep(1000);
+        Main.Menu();
+    }
+
+    public static void Indicadores()
+    {
+        int cantidadPedidos = Global.pedidos.Count();
+        var estadoPreparacion = Global.pedidos.Count(p => p.Estado == Estado.Preparacion);
+        var estadoPendiente = Global.pedidos.Count(p => p.Estado == Estado.Pendiente);
+        var estadoEnviado = Global.pedidos.Count(p => p.Estado == Estado.Enviado);
+        var estadoEntregado = Global.pedidos.Count(p => p.Estado == Estado.Entregado);
+        var estadoCancelado = Global.pedidos.Count(p => p.Estado == Estado.Cancelado);
+        decimal montoTotal = Global.pedidos.Where(i => i.Estado == Estado.Entregado).Sum(p => p.DetallePedido.Sum(d => d.Cantidad * d._Producto.Precio));
+        var pedidoMayor = Global.pedidos.MaxBy(p => p.DetallePedido.Sum(d => d.Cantidad * d._Producto.Precio));
+        var monto = pedidoMayor.DetallePedido.Sum(p => p.Cantidad * p._Producto.Precio);
+        var mayorCantidadPedidos = Global.pedidos.GroupBy(p => p.Cliente).OrderByDescending(g => g.Count()).First();
+        var productoMasSolicitado = Global.pedidos.SelectMany(d => d.DetallePedido).GroupBy(p => p._Producto).OrderByDescending(g => g.Count()).First();
+
+        System.Console.WriteLine("\n------------------- Indicadores -------------------\n");
+        System.Console.WriteLine($"Total de pedidos registrados: {cantidadPedidos}\n");
+        System.Console.WriteLine($"Cantidad de pedidos por estado (Pendiente): {estadoPendiente}");
+        System.Console.WriteLine($"Preparacion: {estadoPreparacion}");
+        System.Console.WriteLine($"Enviado: {estadoEnviado}");
+        System.Console.WriteLine($"Entregado: {estadoEntregado}");
+        System.Console.WriteLine($"Cancelado: {estadoCancelado}\n");
+        System.Console.WriteLine($"Monto total de pedidos entregados: {montoTotal}\n");
+        System.Console.WriteLine($"Pedido con monto mas alto: {pedidoMayor.Cliente}");
+        System.Console.WriteLine($"Monto: {monto}\n");
+        System.Console.WriteLine($"Cliente con mas pedidos: {mayorCantidadPedidos.Key}");
+        System.Console.WriteLine($"Producto mas solicitado: {productoMasSolicitado.Key.Nombre}");
+
+        System.Console.WriteLine("\nPresione una tecla para volver al menu...");
+        Console.ReadKey();
+        Thread.Sleep(1000);
+        Main.Menu();
+    }
 }

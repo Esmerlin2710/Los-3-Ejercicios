@@ -54,9 +54,5 @@ public static class Validacion
             return true;
         }      
     }
-    public static string PrimeraMayuscula(string texto)
-{
-    return char.ToUpper(texto[0]) + texto.Substring(1).ToLower();
-}
 
 }

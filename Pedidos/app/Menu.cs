@@ -30,9 +30,9 @@ public static class Main
             case "3": Servicio.MostrarTodosLosPedidos(); break;
             case "4": Servicio.BuscarPedido(); break;
             case "5": Servicio.CambiarEstado(); break;
-            case "6": break;
-            case "7": break;
-            case "8": break;
+            case "6": Servicio.CancelarPedido(); break;
+            case "7": Servicio.TotalPedido(); break;
+            case "8": Servicio.Indicadores(); break;
             case "9": Servicio.CrearProducto(); break;
             case "10": 
                 Thread.Sleep(1000); 
